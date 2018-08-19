@@ -32,6 +32,12 @@ Running the application in File mode:
 ./ParkingLot.py input.txt
 ```
 
+## For running the tests
+
+```python
+python Tests.py
+```
+
 ## Running the application in a Docker Container
 
 Build the image:

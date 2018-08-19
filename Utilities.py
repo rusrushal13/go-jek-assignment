@@ -15,7 +15,7 @@ class Car:
         self.carColour = colour
         self.carSlot = None
 
-    def setSlot(self, slot):
+    def set_slot(self, slot):
         """
         Setter for slot
 
@@ -24,19 +24,19 @@ class Car:
         """
         self.carSlot = slot
 
-    def getSlot(self):
+    def get_slot(self):
         """
         Getter for slot
         """
         return self.carSlot
 
-    def getColour(self):
+    def get_colour(self):
         """
         Getter for colour
         """
         return self.carColour
 
-    def getRegistrationNumber(self):
+    def get_registration_number(self):
         """
         Getter for Registration Number
         """
@@ -54,31 +54,31 @@ class ParkingLot:
         self.parkedCars = 0
         self.slots = dict.fromkeys([i for i in range(1, int(size)+1)])
 
-    def incrementParkedCars(self):
+    def increment_parked_cars(self):
         """
         will increment the number of parked cars
         """
         self.parkedCars += 1
 
-    def decrementParkedCars(self):
+    def decrement_parked_cars(self):
         """
         will decrement the number of parked cars
         """
         self.parkedCars -= 1
 
-    def getParkedCars(self):
+    def get_parked_cars(self):
         """
         getter for the number of parked cars
         """
         return self.parkedCars
 
-    def getSlots(self):
+    def get_slots(self):
         """
         getter for the parking slots
         """
         return self.slots
 
-    def setSlots(self, slot, value):
+    def set_slots(self, slot, value):
         """
         setter for parking slots
 
@@ -89,29 +89,29 @@ class ParkingLot:
         self.slots[slot] = value
 
 
-def createParkingLot(size):
+def create_parking_lot(size):
     """
     creates a parking lot
 
     ARGS:
-        size(int) - size of the parking lot
+        size(str) - size of the parking lot
     """
-    parkingLot = ParkingLot(size)
-    print('Created a parking slot with ' + str(size) + ' slots')
+    parkingLot = ParkingLot(int(size))
+    print('Created a parking slot with ' + size + ' slots')
     return parkingLot
 
 
-def parkingLotIsFull(parkingLot):
+def parking_lot_is_full(parkingLot):
     """
     checks whether parking lot is full or not
 
     ARGS:
         parkingLot(ParkingLot Object)
     """
-    return str(len(parkingLot.getSlots())) <= str(parkingLot.getParkedCars())
+    return len(parkingLot.get_slots()) <= parkingLot.get_parked_cars()
 
 
-def parkCar(parkingLot, registrationNumber, colour):
+def park_car(parkingLot, registrationNumber, colour):
     """
     will park the car in the parking lot and prints the allocated slot in the parking lot
 
@@ -120,24 +120,26 @@ def parkCar(parkingLot, registrationNumber, colour):
         registrationNumber(str) - given registration number for the car
         colour(str) - given colour for the car
     """
+    returnString = ''
     if parkingLot:
-        if not parkingLotIsFull(parkingLot):
-            parkingSlot = parkingLot.getSlots()
+        if not parking_lot_is_full(parkingLot):
+            parkingSlot = parkingLot.get_slots()
             for slot in parkingSlot.keys():
                 if parkingSlot[slot] is None:
                     car = Car(registrationNumber, colour)
-                    parkingLot.setSlots(slot, car)
-                    car.setSlot(slot)
-                    parkingLot.incrementParkedCars()
-                    print('Allocated slot number: ' + str(slot))
+                    parkingLot.set_slots(slot, car)
+                    car.set_slot(slot)
+                    parkingLot.increment_parked_cars()
+                    returnString = 'Allocated slot number: ' + str(slot)
                     break
         else:
-            print('Sorry, parking lot is full')
+            returnString = 'Sorry, parking lot is full'
     else:
-        print("Parking lot is not defined")
+        returnString = 'Parking lot is not defined'
+    return returnString
 
 
-def carDeparture(parkingLot, inputSlot):
+def car_departure(parkingLot, inputSlot):
     """
     will leave the parking lot from desired slot and prints the leaving slot
 
@@ -145,44 +147,48 @@ def carDeparture(parkingLot, inputSlot):
         parkingLot(ParkingLot Object)
         inputSlot(str) - given slot number
     """
+    returnString = ''
     if parkingLot:
-        if not parkingLot.getParkedCars():
-            print('Sorry, parking lot is empty')
-        elif int(inputSlot) >= 1 and int(inputSlot) < len(parkingLot.getSlots()):
-            parkingSlot = parkingLot.getSlots()
+        if not parkingLot.get_parked_cars():
+            returnString = 'Sorry, parking lot is empty'
+        elif int(inputSlot) >= 1 and int(inputSlot) <= len(parkingLot.get_slots()):
+            parkingSlot = parkingLot.get_slots()
             value = parkingSlot.get(int(inputSlot), None)
             if value is not None:
-                parkingLot.setSlots(int(inputSlot), None)
-                parkingLot.decrementParkedCars()
-                print('Slot number ' + str(inputSlot) + ' is free')
+                parkingLot.set_slots(int(inputSlot), None)
+                parkingLot.decrement_parked_cars()
+                returnString = 'Slot number ' + inputSlot + ' is free'
             else:
-                print('No car at Slot number ' + str(inputSlot))
+                returnString = 'No car at Slot number ' + inputSlot
         else:
-            print('Cannot exit slot: ' + inputSlot + ' as no such exist!')
+            returnString = 'Cannot exit slot: ' + inputSlot + ' as no such exist!'
     else:
-        print("Parking lot is not defined")
+        returnString = 'Parking lot is not defined'
+    return returnString
 
 
-def lotStatus(parkingLot):
+def lot_status(parkingLot):
     """
     return the status of Parking Lot
 
     ARGS:
         parkingLot(ParkingLot Object)
     """
+    returnString = ''
     if parkingLot:
         print('Slot No.\tRegistration No\tColour')
-        parkingSlot = parkingLot.getSlots()
+        parkingSlot = parkingLot.get_slots()
         for parkedCar in parkingSlot.values():
             if parkedCar is not None:
-                print(str(parkedCar.getSlot()) + '\t' +
-                      parkedCar.getRegistrationNumber() + '\t' +
-                      parkedCar.getColour())
+                returnString += str(parkedCar.get_slot()) + '\t' + \
+                    parkedCar.get_registration_number() + '\t' + \
+                    parkedCar.get_colour() + '\n'
     else:
-        print("Parking lot is not defined")
+        returnString = 'Parking lot is not defined'
+    return returnString
 
 
-def carByColour(parkingLot, inputColour):
+def car_by_colour(parkingLot, inputColour):
     """
     prints the registration number of the cars for the given colour
 
@@ -190,25 +196,26 @@ def carByColour(parkingLot, inputColour):
         parkingLot(ParkingLot Object)
         inputColour(str) - given Colour
     """
+    returnString = ''
     if parkingLot:
-        if not parkingLot.getParkedCars():
-            print('Sorry, parking lot is empty', end=' ')
+        if not parkingLot.get_parked_cars():
+            returnString = 'Sorry, parking lot is empty'
         else:
             flag = False
-            parkingSlot = parkingLot.getSlots()
+            parkingSlot = parkingLot.get_slots()
             for parkedCar in parkingSlot.values():
                 if parkedCar is not None:
-                    if parkedCar.getColour() == inputColour:
+                    if parkedCar.get_colour() == inputColour:
                         flag = True
-                        print(parkedCar.getRegistrationNumber(), end=', ')
+                        returnString += parkedCar.get_registration_number() + ', '
             if not flag:
-                print('Not found', end=' ')
-        print('\b \b')
+                returnString = 'Not found'
     else:
-        print("Parking lot is not defined")
+        returnString = 'Parking lot is not defined'
+    return returnString
 
 
-def slotByColour(parkingLot, inputColour):
+def slot_by_colour(parkingLot, inputColour):
     """
     prints the slot number of the cars for the given colour
 
@@ -216,25 +223,26 @@ def slotByColour(parkingLot, inputColour):
         parkingLot(ParkingLot Object)
         inputColour(str) - given colour
     """
+    returnString = ''
     if parkingLot:
-        if not parkingLot.getParkedCars():
-            print('Sorry, parking lot is empty', end=' ')
+        if not parkingLot.get_parked_cars():
+            returnString = 'Sorry, parking lot is empty'
         else:
             flag = False
-            parkingSlot = parkingLot.getSlots()
+            parkingSlot = parkingLot.get_slots()
             for parkedCar in parkingSlot.values():
                 if parkedCar is not None:
-                    if parkedCar.getColour() == inputColour:
+                    if parkedCar.get_colour() == inputColour:
                         flag = True
-                        print(str(parkedCar.getSlot()), end=', ')
+                        returnString += str(parkedCar.get_slot()) + ', '
             if not flag:
-                print('Not found', end=' ')
-        print('\b \b')
+                returnString = 'Not found'
     else:
-        print("Parking lot is not defined")
+        returnString = 'Parking Lot is not defined'
+    return returnString
 
 
-def slotByCarNumber(parkingLot, number):
+def slot_by_car_number(parkingLot, number):
     """
     prints the slot number of the cars for the given number
 
@@ -242,21 +250,22 @@ def slotByCarNumber(parkingLot, number):
         parkingLot(ParkingLot Object)
         number(str) - given registration number
     """
+    returnString = ''
     if parkingLot:
-        if not parkingLot.getParkedCars():
-            print('Sorry, parking lot is empty', end=' ')
+        if not parkingLot.get_parked_cars():
+            returnString = 'Sorry, parking lot is empty'
         else:
             flag = False
-            parkingSlot = parkingLot.getSlots()
+            parkingSlot = parkingLot.get_slots()
             for parkedCar in parkingSlot.values():
                 if parkedCar is not None:
-                    if parkedCar.getRegistrationNumber() == number:
+                    if parkedCar.get_registration_number() == number:
                         flag = True
-                        print(str(parkedCar.getSlot()), end=', ')
+                        returnString += str(parkedCar.get_slot()) + ', '
                         # assuming that for the cars, there is one and only one registration number exits
                         break
             if not flag:
-                print('Not found', end=' ')
-        print('\b \b \b')
+                returnString = 'Not found'
     else:
-        print("Parking lot is not defined")
+        returnString = 'Parking lot is not defined'
+    return returnString

@@ -2,25 +2,25 @@
 
 import sys
 from Constants import *
-from Utilities import (ParkingLot, createParkingLot, parkCar, carDeparture,
-                       lotStatus, carByColour, slotByCarNumber, slotByColour)
+from Utilities import (ParkingLot, create_parking_lot, park_car, car_departure,
+                       lot_status, car_by_colour, slot_by_car_number, slot_by_colour)
 
 
 def executeCommand(parkingLot, command):
     if command[0] == CREATE_PARKING_LOT:
-        parkingLot = createParkingLot(int(command[1]))
+        parkingLot = create_parking_lot(command[1])
     elif command[0] == PARK_CAR:
-        parkCar(parkingLot, command[1], command[2])
+        print(park_car(parkingLot, command[1], command[2]))
     elif command[0] == CAR_DEPARTURE:
-        carDeparture(parkingLot, command[1])
+        print(car_departure(parkingLot, command[1]))
     elif command[0] == LOT_STATUS:
-        lotStatus(parkingLot)
+        print(lot_status(parkingLot).rstrip('\n'))
     elif command[0] == SEARCH_SLOT_BY_CAR_NUMBER:
-        slotByCarNumber(parkingLot, command[1])
+        print(slot_by_car_number(parkingLot, command[1]).rstrip(', '))
     elif command[0] == SEARCH_CAR_BY_COLOUR:
-        carByColour(parkingLot, command[1])
+        print(car_by_colour(parkingLot, command[1]).rstrip(', '))
     elif command[0] == SEARCH_SLOT_BY_COLOUR:
-        slotByColour(parkingLot, command[1])
+        print(slot_by_colour(parkingLot, command[1]).rstrip(', '))
     else:
         print('Command is not applicable')
     return parkingLot

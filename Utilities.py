@@ -44,6 +44,10 @@ class Car:
 
 
 class ParkingLot:
+    """
+    Parking Lot Class
+    """
+
     def __init__(self, size):
         """
         Constructor for Parking Lot

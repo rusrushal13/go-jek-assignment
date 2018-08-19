@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 CREATE_PARKING_LOT = 'create_parking_lot'
 PARK_CAR = 'park'
 CAR_DEPARTURE = 'leave'
